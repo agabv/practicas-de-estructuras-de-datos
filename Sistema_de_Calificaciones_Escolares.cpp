@@ -2,8 +2,8 @@
 //  SISTEMA DE CALIFICACIONES ESCOLARES
 //  Practica #2 - Estructuras de Datos
 //
-//  NIVEL 3: Menu con switch-case
-//  Tema: seleccion multiple
+//  NIVEL 4: Ciclo for
+//  Tema: repeticion y simplificador de calificaciones
 // ============================================================
 
 #include <iostream>
@@ -17,10 +17,15 @@ int main() {
     int    opcion;
     string nombre;
     int    edad;
-    float  calificacion1;
-    float  calificacion2;
-    float  calificacion3;
+
+    int    cantidad;        // cuantas calificaciones se van a registrar
+    float  calificacion;    // la calificacion que se captura en cada vuelta
+    float  suma;            // acumulador de todas las calificaciones
     float  promedio;
+    int    aprobadas;       // contador de calificaciones aprobatorias
+    int    reprobadas;      // contador de calificaciones reprobatorias
+    float  masAlta;         // calificacion mayor, sin usar arreglos
+    float  masBaja;         // calificacion menor, sin usar arreglos
     string estado;
 
     // ---------- Menu principal ----------
@@ -31,8 +36,6 @@ int main() {
     cout << "Opcion: ";
     cin >> opcion;
 
-    // Se limpia el salto de linea que queda en el buffer
-    // para que el getline del nombre funcione correctamente
     cin.ignore();
 
     // ---------- Seleccion multiple con switch ----------
@@ -54,33 +57,61 @@ int main() {
                 return 1;
             }
 
-            cout << "Calificacion 1: ";
-            cin >> calificacion1;
+            cout << "Cuantas calificaciones deseas registrar? ";
+            cin >> cantidad;
 
-            cout << "Calificacion 2: ";
-            cin >> calificacion2;
-
-            cout << "Calificacion 3: ";
-            cin >> calificacion3;
-
-            // Validacion de las calificaciones
-            if (calificacion1 < 0 || calificacion1 > 10) {
-                cout << "Error: la calificacion 1 debe estar entre 0 y 10" << endl;
+            // Validacion de la cantidad
+            if (cantidad <= 0) {
+                cout << "Error: debes registrar al menos una calificacion" << endl;
                 return 1;
             }
 
-            if (calificacion2 < 0 || calificacion2 > 10) {
-                cout << "Error: la calificacion 2 debe estar entre 0 y 10" << endl;
-                return 1;
-            }
+            // Se inicializan los acumuladores y contadores
+            suma       = 0;
+            aprobadas  = 0;
+            reprobadas = 0;
+            masAlta    = 0;
+            masBaja    = 10;
 
-            if (calificacion3 < 0 || calificacion3 > 10) {
-                cout << "Error: la calificacion 3 debe estar entre 0 y 10" << endl;
-                return 1;
+            // ---------- Ciclo for: captura de las n calificaciones ----------
+            for (int i = 1; i <= cantidad; i++) {
+
+                cout << "Calificacion " << i << ": ";
+                cin >> calificacion;
+
+                // Validacion de la calificacion
+                if (calificacion < 0 || calificacion > 10) {
+                    cout << "Error: la calificacion " << i
+                         << " debe estar entre 0 y 10" << endl;
+                    return 1;
+                }
+
+                // Se acumula la suma de todas las calificaciones
+                suma = suma + calificacion;
+
+                // Se cuentan las aprobatorias y las reprobatorias
+                if (calificacion >= 6) {
+                    aprobadas = aprobadas + 1;
+                } else {
+                    reprobadas = reprobadas + 1;
+                }
+
+                // Se busca la mas alta y la mas baja sin usar arreglos
+                if (i == 1) {
+                    masAlta = calificacion;
+                    masBaja = calificacion;
+                } else {
+                    if (calificacion > masAlta) {
+                        masAlta = calificacion;
+                    }
+                    if (calificacion < masBaja) {
+                        masBaja = calificacion;
+                    }
+                }
             }
 
             // Calculo del promedio
-            promedio = (calificacion1 + calificacion2 + calificacion3) / 3;
+            promedio = suma / cantidad;
 
             // Estado del estudiante segun su promedio
             if (promedio >= 9) {
@@ -98,14 +129,16 @@ int main() {
             cout << "-------------------------------------------" << endl;
             cout << "            RESUMEN DEL ESTUDIANTE         " << endl;
             cout << "-------------------------------------------" << endl;
-            cout << "Nombre        : " << nombre        << endl;
-            cout << "Edad          : " << edad          << " anios" << endl;
-            cout << "Calificacion 1: " << calificacion1 << endl;
-            cout << "Calificacion 2: " << calificacion2 << endl;
-            cout << "Calificacion 3: " << calificacion3 << endl;
+            cout << "Nombre           : " << nombre     << endl;
+            cout << "Edad             : " << edad       << " anios" << endl;
+            cout << "Calificaciones   : " << cantidad   << endl;
             cout << "-------------------------------------------" << endl;
-            cout << "PROMEDIO      : " << promedio      << endl;
-            cout << "ESTADO        : " << estado        << endl;
+            cout << "PROMEDIO         : " << promedio   << endl;
+            cout << "ESTADO           : " << estado     << endl;
+            cout << "Calificacion mas alta: " << masAlta << endl;
+            cout << "Calificacion mas baja: " << masBaja << endl;
+            cout << "Aprobatorias     : " << aprobadas   << endl;
+            cout << "Reprobatorias    : " << reprobadas  << endl;
             cout << "-------------------------------------------" << endl;
             break;
 
@@ -115,13 +148,14 @@ int main() {
             cout << "Sistema de Calificaciones Escolares"  << endl;
             cout << "Practica de la materia Estructuras de Datos" << endl;
             cout << endl;
-            cout << "El programa registra el nombre y la edad de un"  << endl;
-            cout << "estudiante junto con sus tres calificaciones,"   << endl;
-            cout << "calcula el promedio y determina su estado:"      << endl;
-            cout << "  Promedio mayor o igual a 9 : EXCELENTE"        << endl;
-            cout << "  Promedio mayor o igual a 7 : APROBADO"         << endl;
-            cout << "  Promedio mayor o igual a 6 : REGULAR"          << endl;
-            cout << "  Promedio menor a 6         : REPROBADO"        << endl;
+            cout << "El programa registra el nombre y la edad de un"   << endl;
+            cout << "estudiante y la cantidad de calificaciones que"   << endl;
+            cout << "el usuario decida, calcula el promedio y"         << endl;
+            cout << "determina su estado:"                             << endl;
+            cout << "  Promedio mayor o igual a 9 : EXCELENTE"         << endl;
+            cout << "  Promedio mayor o igual a 7 : APROBADO"          << endl;
+            cout << "  Promedio mayor o igual a 6 : REGULAR"           << endl;
+            cout << "  Promedio menor a 6         : REPROBADO"         << endl;
             cout << "------------------------------------" << endl;
             break;
 
