@@ -2,8 +2,8 @@
 //  SISTEMA DE CALIFICACIONES ESCOLARES
 //  Practica #2 - Estructuras de Datos
 //
-//  NIVEL 4: Ciclo for
-//  Tema: repeticion y simplificador de calificaciones
+//  NIVEL 5: Ciclo while
+//  Tema: validacion de datos con repeticion
 // ============================================================
 
 #include <iostream>
@@ -48,22 +48,24 @@ int main() {
             cout << "Nombre del estudiante: ";
             getline(cin, nombre);
 
+            // ---------- Validacion de la edad con while ----------
             cout << "Edad: ";
             cin >> edad;
 
-            // Validacion de la edad
-            if (edad < 0 || edad > 120) {
-                cout << "Edad invalida" << endl;
-                return 1;
+            while (edad < 0 || edad > 120) {
+                cout << "Edad invalida. Debe estar entre 0 y 120." << endl;
+                cout << "Edad: ";
+                cin >> edad;
             }
 
+            // ---------- Validacion de la cantidad con while ----------
             cout << "Cuantas calificaciones deseas registrar? ";
             cin >> cantidad;
 
-            // Validacion de la cantidad
-            if (cantidad <= 0) {
-                cout << "Error: debes registrar al menos una calificacion" << endl;
-                return 1;
+            while (cantidad <= 0) {
+                cout << "Cantidad invalida. Debes registrar al menos una." << endl;
+                cout << "Cuantas calificaciones deseas registrar? ";
+                cin >> cantidad;
             }
 
             // Se inicializan los acumuladores y contadores
@@ -79,11 +81,11 @@ int main() {
                 cout << "Calificacion " << i << ": ";
                 cin >> calificacion;
 
-                // Validacion de la calificacion
-                if (calificacion < 0 || calificacion > 10) {
-                    cout << "Error: la calificacion " << i
-                         << " debe estar entre 0 y 10" << endl;
-                    return 1;
+                // ---------- Validacion de la calificacion con while ----------
+                while (calificacion < 0 || calificacion > 10) {
+                    cout << "Calificacion invalida. Debe estar entre 0 y 10." << endl;
+                    cout << "Calificacion " << i << ": ";
+                    cin >> calificacion;
                 }
 
                 // Se acumula la suma de todas las calificaciones
